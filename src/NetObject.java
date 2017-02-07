@@ -12,11 +12,10 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+//TCP data wrapper
 class Message {
-	byte mType = 0;
-	byte[] mData;
-	InetAddress mIP;
-	int mPort;
+	byte mType = 0;		//type of data
+	byte[] mData;		//actual data
 }
 
 public class NetObject extends Thread {
@@ -31,8 +30,10 @@ public class NetObject extends Thread {
 	static final byte MSG_INIT 		= 0; //init connection
 	static final byte MSG_TEXT 		= 1; //sending text
 
+	//needed, but overwritten by children
 	public void run() {	}
 
+	//handles receiving TCP data and wraps the message in a Message class
 	void receiveTCPData(Socket socket, Message msg) throws Exception{
 		DataInputStream inData = new DataInputStream(socket.getInputStream());
 
@@ -50,16 +51,17 @@ public class NetObject extends Thread {
 		inData.readFully(msg.mData);
 	}
 
+	//handles sending wrapped data in the Message class over TCP
 	void sendTCPData(Socket socket, Message msg) throws Exception{
 		DataOutputStream outData = new DataOutputStream(socket.getOutputStream());
 
-		//send size of data
+		//wrap size of data
 		ByteBuffer b = ByteBuffer.allocate(4);
 		b.putInt(msg.mData.length);
 		byte[] dataSize = b.array();
 		outData.write(dataSize);
 
-		//send message type
+		//wrap message type
 		outData.writeByte(msg.mType);
 
 		//send data

@@ -13,6 +13,7 @@ public class NetClient extends NetObject{
 		mIP = IP;
 	}
 
+	//start the main thread
 	public void run() {
 		try {
 			TCPConnection();
@@ -47,12 +48,14 @@ public class NetClient extends NetObject{
 			}
 		}
 
+		//attach reader to console
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
 		//initialize message
 		String msgSend = "Hello, this is client.";
 		System.out.println(msgSend);
 
+		//wrap data, send it, then receive response
 		Message msg = new Message();
 		msg.mData = msgSend.getBytes();
 		msg.mType = MSG_INIT;
@@ -61,6 +64,8 @@ public class NetClient extends NetObject{
 		String msgReceive = new String(msg.mData);
 		System.out.println("<server>: " + msgReceive);
 
+		//keep getting user input
+		//send data, receive server data
 		while (!msgSend.toLowerCase().equals("exit"))	{
 			System.out.print("Text to Send: ");
 			msgSend = reader.readLine();
@@ -72,6 +77,7 @@ public class NetClient extends NetObject{
 			System.out.println("<server>: " + msgReceive);
 		}
 
+		//close socket if user "exits"
 		socket.close();
 	}
 }

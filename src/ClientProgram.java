@@ -4,6 +4,7 @@
 
 public class ClientProgram {
 
+	//created to read in IP data and create a new jar file just for the client
 	public static void main(String[] args) {
 		if (args.length > 0) {
 

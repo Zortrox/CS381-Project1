@@ -4,6 +4,7 @@
 
 public class ServerProgram {
 
+	//created to read in IP data and create a new jar file just for the server
 	public static void main(String[] args) {
 		if (args.length > 0) {
 			int locPos = args.length > 1 ? 1 : 0;
